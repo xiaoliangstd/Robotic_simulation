@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="user_debug" default="False"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find armcontrol)/xacro/arm.xacro' "/>
+
+ 
+    <!-- for higher robot_state_publisher average rate-->
+    <!-- <param name="rate" value="1000"/> -->
+
+    <!-- send fake joint values -->
+<!-->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+       <param name="use_gui" value="True"/>
+    </node>
+<!-->
+
+    <node pkg="armcontrol" type="position_pub" name="joint_states" output="screen" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="1000.0"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" respawn="false" output="screen" 
+       args="-d $(find armcontrol)/config/arm.rviz"/> 
+<!-->
+    <node pkg="aliengo" name="aliengo_position_control" type="position_control_pub"> </node>
+<!-->
+</launch>
