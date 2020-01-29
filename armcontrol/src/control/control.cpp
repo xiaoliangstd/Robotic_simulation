@@ -4,10 +4,10 @@
 void Robot::fk(double angle1,double angle2,double angle3)
 {
     double x,y,z;
-    Matrix rz1("Rz",angle1);
-    Matrix rx2("Rx",90),rz2("Rz",angle2);
-    Matrix dx3("Dx",0.6),rz3("Rz",angle3);
-    Matrix dx4("Dx",0.64);
+    Rz rz1(angle1);
+    Rx rx2(90),rz2(angle2);
+    Dx dx3(0.6),rz3(angle3);
+    Dx dx4(0.64);
     Matrix frame1,frame2,frame3,frame4,frame_all;
     frame1 = rz1;
     frame2 = rx2*rz2;
@@ -15,7 +15,7 @@ void Robot::fk(double angle1,double angle2,double angle3)
     frame4 = dx4;
     frame_all = frame1*frame2*frame3*frame4;
     //frame_all.printf_matrix();
-    this->end_theta = frame_all.read_end();
+   // this->end_theta = frame_all.read_end();
     this->pub(angle1,angle2,angle3);
     /*
     x = frame_all.xx;
@@ -120,9 +120,7 @@ void Robot::pub(double angle1,double angle2,double angle3)
             */
             joint_state.header.stamp = ros::Time::now();
 		    joint_state.name={"arm_rot_1","arm_rot_2","arm_rot_3","arm_rot_5","arm_rot_6","finger_pri_1"};
-            joint_state.position = {angle1,angle2,angle3,-this->end_theta,0,0};
+            joint_state.position = {angle1,angle2,angle3,0,0,0};
 		    position_pub.publish(joint_state);
-
-
 
 }

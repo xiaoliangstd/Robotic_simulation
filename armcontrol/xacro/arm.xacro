@@ -9,15 +9,9 @@
 
   <xacro:property name="base_link_height" value="0.079989"/>
   <xacro:property name="pi" value="3.14159265353846"/>
-<xacro:property name="link" value="0.10001"/>
+  <xacro:property name="link" value="0.10001"/>
 
-  <joint name="arm_base_joint" type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent link="arm_base_link" />
-    <child link="arm_link_1" />
-  </joint>
+
 
   <link
     name="arm_base_link">
@@ -78,7 +72,7 @@
     </inertial>
     <visual>
       <origin
-        xyz="0 0 ${-3.3733E-07-0.10001}"
+        xyz="0 0 -0.10001"
         rpy="${pi/2} 0 ${-pi/2}" />
       <geometry>
         <mesh
@@ -92,8 +86,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+        xyz="0 0 -0.10001"
+        rpy="${pi/2} 0 ${-pi/2}" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_1.STL" />
@@ -123,12 +117,12 @@
       friction="${motor_fric}" />
   </joint>
 
-<!-- xyz="4.1945E-10 0.2726 -9.6287E-12" -->
+
   <link
     name="arm_link_2">
     <inertial>
       <origin
-        xyz="0 0 0"
+        xyz="4.1945E-10 0.2726 -9.6287E-12"
         rpy="0 0 0" />
       <mass
         value="5.1205" />
@@ -157,7 +151,7 @@
     <collision>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 ${pi/2} ${-pi/2}" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_2.STL" />
@@ -187,13 +181,12 @@
       friction="${motor_fric}" />
   </joint>
 
-<!--  xyz="-3.4632E-18 0.28121 1.1102E-16" "  -->
 
   <link
     name="arm_link_3">
     <inertial>
       <origin
-        xyz="0 0 0"
+         xyz="-3.4632E-18 0.28121 1.1102E-16"
         rpy="0 0 0" />
       <mass
         value="4.0428" />
@@ -222,7 +215,7 @@
     <collision>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 ${pi/2} ${-pi/2}" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_3.STL" />
@@ -251,12 +244,12 @@
       damping="${motor_damp}"
       friction="${motor_fric}" />
   </joint>
-<!--   xyz="1.9004E-18 0.049824 0 "  -->
+<!--     -->
   <link
     name="arm_link_4">
     <inertial>
       <origin
-        xyz="0 0 0 "
+        xyz="1.9004E-18 0.049824 0 "
         rpy="0 0 0" />
       <mass
         value="0.14194" />
@@ -285,7 +278,7 @@
     <collision>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 0 1.5707" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_4.STL" />
@@ -315,13 +308,13 @@
       friction="${motor_fric}" />
   </joint>
 
-<!--   xyz="-1.1102E-16 -0.014377 -2.4389E-17"   -->
+
 
   <link
     name="arm_link_5">
     <inertial>
       <origin
-        xyz="0 0 0"
+         xyz="-1.1102E-16 -0.014377 -2.4389E-17"
         rpy="0 0 0" />
       <mass
         value="0.093662" />
@@ -349,8 +342,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+         xyz="0 0 0"
+        rpy="0 0 1.5707" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_5.STL" />
@@ -412,8 +405,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+         xyz="0 0 0"
+        rpy="0 0 1.5707" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/arm_link_6.STL" />
@@ -483,8 +476,8 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+         xyz="0 0 0"
+        rpy="-1.5707 0 0"  />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/finger_link_1.STL" />
@@ -555,7 +548,7 @@
     <collision>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="1.5707 0 0" />
       <geometry>
         <mesh
           filename="package://armcontrol/xacro/meshes/finger_link_2.STL" />

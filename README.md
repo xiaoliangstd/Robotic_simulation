@@ -28,7 +28,12 @@ i am still working for the rest! will be soon.
 
 
 
-
+|关节序号|$\alpha$|a|$\theta$|d|
+|-|-|-|-|-|
+|1|0|0|$\theta_1$|0|
+|2|90|0|$\theta_2$|0|
+|3|0|0.6|$\theta_3$|0|
+|4|0|0.64|0|0|
 
 
 
