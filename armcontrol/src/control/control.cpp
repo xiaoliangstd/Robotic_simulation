@@ -4,25 +4,37 @@
 void Robot::fk(double angle1,double angle2,double angle3)
 {
     double x,y,z;
-    Rz rz1(angle1);
-    Rx rx2(90),rz2(angle2);
-    Dx dx3(0.6),rz3(angle3);
-    Dx dx4(0.64);
+    Matrix rz1("Rz",angle1);
+    Matrix rx2("Rx",90),rz2("Rz",angle2);
+    Matrix dx3("Dx",0.6),rz3("Rz",angle3);
+    Matrix dx4("Dx",0.64);
     Matrix frame1,frame2,frame3,frame4,frame_all;
     frame1 = rz1;
     frame2 = rx2*rz2;
     frame3 = dx3*rz3;
     frame4 = dx4;
-    frame_all = frame1*frame2*frame3*frame4;
-    //frame_all.printf_matrix();
-   // this->end_theta = frame_all.read_end();
-    this->pub(angle1,angle2,angle3);
+    frame_all = frame2*frame3*frame4;
+    frame_all.printf_matrix();
+    this->end_theta = frame_all.read_end();
+    //this->pub(angle1,angle2,angle3);
     /*
     x = frame_all.xx;
     y = frame_all.yy;
     z = frame_all.zz;
     this->ik(x,y,z);
     */
+
+}
+
+
+void Robot::fk1(double angle1,double angle2,double angle3)
+{
+    Vec44<double> rz1;
+    rz1<<1,1,1,1,
+         1,1,1,1,
+         1,1,1,1,
+         0,0,0,1;
+   std::cout<<rz1<<std::endl;
 
 }
 
@@ -70,8 +82,14 @@ void Robot::cal_trajectory(double x,double y,double z,double tf)
         theta1 = c0_1+c1_1*t+c2_1*pow(t,2)+c3_1*pow(t,3);
         theta2 = c0_2+c1_2*t+c2_2*pow(t,2)+c3_2*pow(t,3);
         theta3 = c0_3+c1_3*t+c2_3*pow(t,2)+c3_3*pow(t,3);
-        this->fk(theta1,theta2,theta3);
+        //std::cout<<theta1<<std::endl;
+      
         this->pub(theta1,theta2,theta3);
+        double the1 = theta1*(180/pi);   // 粗心阿  一个错误  不会debug 唉
+        double the2 = theta2*(180/pi);
+        double the3 = theta3*(180/pi);
+
+        this->fk(the1,the2,the3);
         loop_rate.sleep();
     }
     this->last_theta1 = this->theta1;
@@ -95,14 +113,15 @@ void Robot::ik(double x,double y,double z)
     k2 = L2*sin_theta3;
     temp2 = x*cos(theta1)+y*sin(theta1);
     theta2 = atan2(z,temp2) - atan2(k2,k1);
-    this->fk(theta1,theta2,theta3);
-    this->pub(theta1,theta2,theta3);
+    
+    //this->pub(theta1,theta2,theta3);
     this->theta1 = theta1;
     this->theta2 = theta2;
     this->theta3 = theta3;
-    theta1 = theta1*(180/pi);
-    theta2 = theta2*(180/pi);
-    theta3 = theta3*(180/pi);
+    //theta1 = theta1*(180/pi);
+   // theta2 = theta2*(180/pi);
+   // theta3 = theta3*(180/pi);
+   // this->fk1(theta1,theta2,theta3);
     //std::cout<<"theta1:"<<theta1<<std::endl;
     //std::cout<<"theta2:"<<theta2<<std::endl;
     //std::cout<<"theta3:"<<theta3<<std::endl;
@@ -120,7 +139,9 @@ void Robot::pub(double angle1,double angle2,double angle3)
             */
             joint_state.header.stamp = ros::Time::now();
 		    joint_state.name={"arm_rot_1","arm_rot_2","arm_rot_3","arm_rot_5","arm_rot_6","finger_pri_1"};
-            joint_state.position = {angle1,angle2,angle3,0,0,0};
+            joint_state.position = {angle1,angle2,angle3,this->end_theta,0,0.1};
 		    position_pub.publish(joint_state);
+
+
 
 }

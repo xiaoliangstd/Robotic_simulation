@@ -9,6 +9,15 @@
 
 #define L1 0.6
 #define L2 0.64
+#include "eigen3/Eigen/Dense"
+template <typename T>
+using Vec44 = typename Eigen::Matrix<T, 4, 4>;
+
+
+
+
+
+
 
 class Robot
 {
@@ -20,6 +29,7 @@ class Robot
             position_pub = n.advertise<sensor_msgs::JointState>("/joint_states", 3000);
         };
         void fk(double angle1,double angle2,double angle3);
+        void fk1(double angle1,double angle2,double angle3);
         void ik(double x,double y,double z);
         void cal_trajectory(double x,double y,double z,double tf);
         void pub(double angle1,double angle2,double angle3);
